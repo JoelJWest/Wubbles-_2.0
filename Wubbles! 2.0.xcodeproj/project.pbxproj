@@ -1,0 +1,487 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		286E987919AE9F6A008C03BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E987819AE9F6A008C03BF /* Foundation.framework */; };
+		286E987B19AE9F6A008C03BF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E987A19AE9F6A008C03BF /* CoreGraphics.framework */; };
+		286E987D19AE9F6A008C03BF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E987C19AE9F6A008C03BF /* UIKit.framework */; };
+		286E987F19AE9F6A008C03BF /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E987E19AE9F6A008C03BF /* SpriteKit.framework */; };
+		286E988519AE9F6A008C03BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 286E988319AE9F6A008C03BF /* InfoPlist.strings */; };
+		286E988719AE9F6A008C03BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 286E988619AE9F6A008C03BF /* main.m */; };
+		286E988B19AE9F6A008C03BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 286E988A19AE9F6A008C03BF /* AppDelegate.m */; };
+		286E988E19AE9F6A008C03BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 286E988C19AE9F6A008C03BF /* Main.storyboard */; };
+		286E989119AE9F6A008C03BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286E989019AE9F6A008C03BF /* ViewController.m */; };
+		286E989419AE9F6A008C03BF /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 286E989319AE9F6A008C03BF /* MyScene.m */; };
+		286E989619AE9F6A008C03BF /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 286E989519AE9F6A008C03BF /* Spaceship.png */; };
+		286E989819AE9F6A008C03BF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 286E989719AE9F6A008C03BF /* Images.xcassets */; };
+		286E989F19AE9F6A008C03BF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E989E19AE9F6A008C03BF /* XCTest.framework */; };
+		286E98A019AE9F6A008C03BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E987819AE9F6A008C03BF /* Foundation.framework */; };
+		286E98A119AE9F6A008C03BF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286E987C19AE9F6A008C03BF /* UIKit.framework */; };
+		286E98A919AE9F6A008C03BF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 286E98A719AE9F6A008C03BF /* InfoPlist.strings */; };
+		286E98AB19AE9F6A008C03BF /* Wubbles__2_0Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 286E98AA19AE9F6A008C03BF /* Wubbles__2_0Tests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		286E98A219AE9F6A008C03BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 286E986D19AE9F6A008C03BF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 286E987419AE9F6A008C03BF;
+			remoteInfo = "Wubbles! 2.0";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		286E987519AE9F6A008C03BF /* Wubbles! 2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Wubbles! 2.0.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		286E987819AE9F6A008C03BF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		286E987A19AE9F6A008C03BF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		286E987C19AE9F6A008C03BF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		286E987E19AE9F6A008C03BF /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		286E988219AE9F6A008C03BF /* Wubbles! 2.0-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wubbles! 2.0-Info.plist"; sourceTree = "<group>"; };
+		286E988419AE9F6A008C03BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		286E988619AE9F6A008C03BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		286E988819AE9F6A008C03BF /* Wubbles! 2.0-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Wubbles! 2.0-Prefix.pch"; sourceTree = "<group>"; };
+		286E988919AE9F6A008C03BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		286E988A19AE9F6A008C03BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		286E988D19AE9F6A008C03BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		286E988F19AE9F6A008C03BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		286E989019AE9F6A008C03BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		286E989219AE9F6A008C03BF /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
+		286E989319AE9F6A008C03BF /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
+		286E989519AE9F6A008C03BF /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
+		286E989719AE9F6A008C03BF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		286E989D19AE9F6A008C03BF /* Wubbles! 2.0Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Wubbles! 2.0Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		286E989E19AE9F6A008C03BF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		286E98A619AE9F6A008C03BF /* Wubbles! 2.0Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Wubbles! 2.0Tests-Info.plist"; sourceTree = "<group>"; };
+		286E98A819AE9F6A008C03BF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		286E98AA19AE9F6A008C03BF /* Wubbles__2_0Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wubbles__2_0Tests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		286E987219AE9F6A008C03BF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286E987B19AE9F6A008C03BF /* CoreGraphics.framework in Frameworks */,
+				286E987D19AE9F6A008C03BF /* UIKit.framework in Frameworks */,
+				286E987F19AE9F6A008C03BF /* SpriteKit.framework in Frameworks */,
+				286E987919AE9F6A008C03BF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286E989A19AE9F6A008C03BF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286E989F19AE9F6A008C03BF /* XCTest.framework in Frameworks */,
+				286E98A119AE9F6A008C03BF /* UIKit.framework in Frameworks */,
+				286E98A019AE9F6A008C03BF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		286E986C19AE9F6A008C03BF = {
+			isa = PBXGroup;
+			children = (
+				286E988019AE9F6A008C03BF /* Wubbles! 2.0 */,
+				286E98A419AE9F6A008C03BF /* Wubbles! 2.0Tests */,
+				286E987719AE9F6A008C03BF /* Frameworks */,
+				286E987619AE9F6A008C03BF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		286E987619AE9F6A008C03BF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				286E987519AE9F6A008C03BF /* Wubbles! 2.0.app */,
+				286E989D19AE9F6A008C03BF /* Wubbles! 2.0Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		286E987719AE9F6A008C03BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				286E987819AE9F6A008C03BF /* Foundation.framework */,
+				286E987A19AE9F6A008C03BF /* CoreGraphics.framework */,
+				286E987C19AE9F6A008C03BF /* UIKit.framework */,
+				286E987E19AE9F6A008C03BF /* SpriteKit.framework */,
+				286E989E19AE9F6A008C03BF /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		286E988019AE9F6A008C03BF /* Wubbles! 2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				286E988919AE9F6A008C03BF /* AppDelegate.h */,
+				286E988A19AE9F6A008C03BF /* AppDelegate.m */,
+				286E988C19AE9F6A008C03BF /* Main.storyboard */,
+				286E988F19AE9F6A008C03BF /* ViewController.h */,
+				286E989019AE9F6A008C03BF /* ViewController.m */,
+				286E989219AE9F6A008C03BF /* MyScene.h */,
+				286E989319AE9F6A008C03BF /* MyScene.m */,
+				286E989519AE9F6A008C03BF /* Spaceship.png */,
+				286E989719AE9F6A008C03BF /* Images.xcassets */,
+				286E988119AE9F6A008C03BF /* Supporting Files */,
+			);
+			path = "Wubbles! 2.0";
+			sourceTree = "<group>";
+		};
+		286E988119AE9F6A008C03BF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				286E988219AE9F6A008C03BF /* Wubbles! 2.0-Info.plist */,
+				286E988319AE9F6A008C03BF /* InfoPlist.strings */,
+				286E988619AE9F6A008C03BF /* main.m */,
+				286E988819AE9F6A008C03BF /* Wubbles! 2.0-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		286E98A419AE9F6A008C03BF /* Wubbles! 2.0Tests */ = {
+			isa = PBXGroup;
+			children = (
+				286E98AA19AE9F6A008C03BF /* Wubbles__2_0Tests.m */,
+				286E98A519AE9F6A008C03BF /* Supporting Files */,
+			);
+			path = "Wubbles! 2.0Tests";
+			sourceTree = "<group>";
+		};
+		286E98A519AE9F6A008C03BF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				286E98A619AE9F6A008C03BF /* Wubbles! 2.0Tests-Info.plist */,
+				286E98A719AE9F6A008C03BF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		286E987419AE9F6A008C03BF /* Wubbles! 2.0 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286E98AE19AE9F6A008C03BF /* Build configuration list for PBXNativeTarget "Wubbles! 2.0" */;
+			buildPhases = (
+				286E987119AE9F6A008C03BF /* Sources */,
+				286E987219AE9F6A008C03BF /* Frameworks */,
+				286E987319AE9F6A008C03BF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Wubbles! 2.0";
+			productName = "Wubbles! 2.0";
+			productReference = 286E987519AE9F6A008C03BF /* Wubbles! 2.0.app */;
+			productType = "com.apple.product-type.application";
+		};
+		286E989C19AE9F6A008C03BF /* Wubbles! 2.0Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286E98B119AE9F6A008C03BF /* Build configuration list for PBXNativeTarget "Wubbles! 2.0Tests" */;
+			buildPhases = (
+				286E989919AE9F6A008C03BF /* Sources */,
+				286E989A19AE9F6A008C03BF /* Frameworks */,
+				286E989B19AE9F6A008C03BF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				286E98A319AE9F6A008C03BF /* PBXTargetDependency */,
+			);
+			name = "Wubbles! 2.0Tests";
+			productName = "Wubbles! 2.0Tests";
+			productReference = 286E989D19AE9F6A008C03BF /* Wubbles! 2.0Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		286E986D19AE9F6A008C03BF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = WestSutdios;
+				TargetAttributes = {
+					286E989C19AE9F6A008C03BF = {
+						TestTargetID = 286E987419AE9F6A008C03BF;
+					};
+				};
+			};
+			buildConfigurationList = 286E987019AE9F6A008C03BF /* Build configuration list for PBXProject "Wubbles! 2.0" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 286E986C19AE9F6A008C03BF;
+			productRefGroup = 286E987619AE9F6A008C03BF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				286E987419AE9F6A008C03BF /* Wubbles! 2.0 */,
+				286E989C19AE9F6A008C03BF /* Wubbles! 2.0Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		286E987319AE9F6A008C03BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286E988519AE9F6A008C03BF /* InfoPlist.strings in Resources */,
+				286E989819AE9F6A008C03BF /* Images.xcassets in Resources */,
+				286E989619AE9F6A008C03BF /* Spaceship.png in Resources */,
+				286E988E19AE9F6A008C03BF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286E989B19AE9F6A008C03BF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286E98A919AE9F6A008C03BF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		286E987119AE9F6A008C03BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286E989419AE9F6A008C03BF /* MyScene.m in Sources */,
+				286E989119AE9F6A008C03BF /* ViewController.m in Sources */,
+				286E988B19AE9F6A008C03BF /* AppDelegate.m in Sources */,
+				286E988719AE9F6A008C03BF /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286E989919AE9F6A008C03BF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286E98AB19AE9F6A008C03BF /* Wubbles__2_0Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		286E98A319AE9F6A008C03BF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 286E987419AE9F6A008C03BF /* Wubbles! 2.0 */;
+			targetProxy = 286E98A219AE9F6A008C03BF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		286E988319AE9F6A008C03BF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286E988419AE9F6A008C03BF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		286E988C19AE9F6A008C03BF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286E988D19AE9F6A008C03BF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		286E98A719AE9F6A008C03BF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286E98A819AE9F6A008C03BF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		286E98AC19AE9F6A008C03BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		286E98AD19AE9F6A008C03BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		286E98AF19AE9F6A008C03BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Wubbles! 2.0/Wubbles! 2.0-Prefix.pch";
+				INFOPLIST_FILE = "Wubbles! 2.0/Wubbles! 2.0-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		286E98B019AE9F6A008C03BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Wubbles! 2.0/Wubbles! 2.0-Prefix.pch";
+				INFOPLIST_FILE = "Wubbles! 2.0/Wubbles! 2.0-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		286E98B219AE9F6A008C03BF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Wubbles! 2.0.app/Wubbles! 2.0";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Wubbles! 2.0/Wubbles! 2.0-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Wubbles! 2.0Tests/Wubbles! 2.0Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		286E98B319AE9F6A008C03BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Wubbles! 2.0.app/Wubbles! 2.0";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Wubbles! 2.0/Wubbles! 2.0-Prefix.pch";
+				INFOPLIST_FILE = "Wubbles! 2.0Tests/Wubbles! 2.0Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		286E987019AE9F6A008C03BF /* Build configuration list for PBXProject "Wubbles! 2.0" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286E98AC19AE9F6A008C03BF /* Debug */,
+				286E98AD19AE9F6A008C03BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		286E98AE19AE9F6A008C03BF /* Build configuration list for PBXNativeTarget "Wubbles! 2.0" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286E98AF19AE9F6A008C03BF /* Debug */,
+				286E98B019AE9F6A008C03BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		286E98B119AE9F6A008C03BF /* Build configuration list for PBXNativeTarget "Wubbles! 2.0Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286E98B219AE9F6A008C03BF /* Debug */,
+				286E98B319AE9F6A008C03BF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 286E986D19AE9F6A008C03BF /* Project object */;
+}
