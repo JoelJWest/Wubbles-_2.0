@@ -70,7 +70,9 @@ BOOL gameRunning;
         [self addWubbles];
         [self addHands];
         [self addMenuButton];
+        [self addMotionSensor];
         
+        [motionManager stopAccelerometerUpdates];
         
         //USED TO ADD TEST OBJECTS
         //[self addTestObjects];
@@ -209,53 +211,51 @@ BOOL gameRunning;
     
 }
 
--(void)removeMotionSensor{
-    
-    motionManager.accelerometerUpdateInterval = 0;
-    
-}
 -(void)addMotionSensor{
     motionManager = [[CMMotionManager alloc] init];
-    motionManager.accelerometerUpdateInterval = 1.0/800.0;
-    NSOperationQueue *queue = [NSOperationQueue currentQueue];
-    [motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
+    motionManager.accelerometerUpdateInterval = 1/60;
+    NSOperationQueue *motionQueue = [NSOperationQueue currentQueue];
+    
+    SKAction *rotateLeft = [SKAction rotateToAngle:.8 duration:.12];
+    SKAction *rotateRight = [SKAction rotateToAngle:-.8 duration:.12];
+    SKAction *rotateCenter = [SKAction rotateToAngle:0 duration:.12];
+    
+
+    [motionManager startAccelerometerUpdatesToQueue:motionQueue withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
      {
          CMAcceleration acceleration = accelerometerData.acceleration;
          
-         float playerMovement = acceleration.x * 10;
+         float movement = 0;
+         movement = acceleration.x;
+         movement = movement * 5;
          
-         if (acceleration.x < -.33){
+         if (acceleration.x > .33){
              
-             wubbles.position = CGPointMake(wubbles.position.x + playerMovement, wubbles.position.y);
-
+             [wubbles runAction:rotateRight];
+             wubbles.position = CGPointMake(wubbles.position.x + movement, wubbles.position.y);
          }
-         else if (acceleration.x >.33){
+         
+         else if (acceleration.x < -.33){
              
-             wubbles.position = CGPointMake(wubbles.position.x + playerMovement, wubbles.position.y);
-
+             [wubbles runAction:rotateLeft];
+             wubbles.position = CGPointMake(wubbles.position.x + movement, wubbles.position.y);
          }
+         
          else{
              
-             wubbles.position = CGPointMake(wubbles.position.x + playerMovement, wubbles.position.y);
+             [wubbles runAction:rotateCenter];
              
          }
+         
+         
+         
+         
+         
      }
      ];
-}
-
-
--(void)horizontalMovement:(CMAcceleration)accelerometerData{
-    
-    if(accelerometerData.x < -.66){
-        
-          wubbles.position = CGPointMake(wubbles.position.x -3, wubbles.position.y);
-    }
-    else if(accelerometerData.x > .66){
-        
-          wubbles.position = CGPointMake(wubbles.position.x + 3, wubbles.position.y);
-    }
     
 }
+
 
 
 -(void)addInstructions{
@@ -391,6 +391,8 @@ BOOL gameRunning;
 }
 
 -(void)runGame{
+    
+        [motionManager startAccelerometerUpdates];
     
         tap.hidden = YES;
         [self.delegate startGame];
@@ -544,6 +546,8 @@ BOOL gameRunning;
 }
 -(void)gameOver{
     
+    [motionManager stopAccelerometerUpdates];
+    
     [self endingPlayerAnimation];
     [self.delegate endGame];
     
@@ -552,7 +556,7 @@ BOOL gameRunning;
     [self stopAnimation];
     [self gameOverAnimation];
     [self addEndingScreen];
-    [self removeMotionSensor];
+
     
     wubbles.hidden = YES;
     [virticleMovmentFromScrolling invalidate];
