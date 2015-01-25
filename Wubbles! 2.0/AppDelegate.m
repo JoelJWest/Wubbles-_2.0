@@ -12,6 +12,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[NSUserDefaults standardUserDefaults] setFloat:0 forKey:@"OffSet"];
     // Override point for customization after application launch.
     return YES;
 }

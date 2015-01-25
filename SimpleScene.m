@@ -7,30 +7,1094 @@
 //
 
 #import "SimpleScene.h"
+#import "ViewController.h"
+
+@interface SimpleScene()
+
+@end
+
+
+static const uint32_t playerCategory = 0x1;
+static const uint32_t obsticleCategory = 0x1 << 1;
+static const uint32_t itemCategory = 0x1 << 2;
 
 @implementation SimpleScene
+
+@synthesize delegate = delegate;
+@synthesize moveDown = moveDown;
+@synthesize background1 = background1;
+@synthesize background2 = background2;
+@synthesize wubbles = wubbles;
+@synthesize topBoundry = topBoundry;
+@synthesize bottomBoundry = bottomBoundry;
+@synthesize currentScoreBorder = currentScoreBorder;
+@synthesize instructionsBackground = instructionsBackground;
+@synthesize instructions = instructions;
+@synthesize motionManager = motionManager;
+@synthesize horizontalMovment = horizontalMovement;
+@synthesize highScoreIntro = highScoreIntro;
+@synthesize currentScoreBackground = currentScoreBackground;
+@synthesize currentScoreLabel = currentScoreLabel;
+@synthesize bringInCurrentScore = bringInCurrentScore;
+@synthesize hill = hill;
+@synthesize tap = tap;
+@synthesize topHand = topHand;
+@synthesize bottomHand = bottomHand;
+@synthesize flash = flash;
+@synthesize menuBackGround = menuBackGround;
+@synthesize menuLabel = menuLabel;
+@synthesize rotateLeft = rotateLeft;
+@synthesize rotateRight = rotateRight;
+@synthesize rotateCenter = rotateCenter;
+@synthesize moveLeft = moveLeft;
+@synthesize moveRight = moveRight;
+
+
+
+#pragma Initilization Methods
+
 -(id)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
-        /* Setup your scene here */
         
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        self.physicsWorld.contactDelegate = self;
         
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+        virticleMovementFromScrolling = 0;
+        currentScoreValue = 0;
+        awardedScore = 0;
+        topScore = 0;
+        temp = 0;
+        gameRunning = NO;
+        updateScore = NO;
+        respondToMotionSensor = NO;
+        zoneNumber = 1;
+        addMenuBackground = YES;
         
-        myLabel.text = @"Simple";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
+        [self setScore];
+        [self addBackground];
+        [self addInstructions];
+        [self updateInstructions];
+        [self addCurrentScore];
+        [self addBoundries];
+        [self addMoveDownAnimation];
+        [self addWubbles];
+        [self addHands];
+        [self addMenuButton];
+        [self addEndingScreen];
         
-        [self addChild:myLabel];
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self]; // USED TO RELEASE SELF WHEN VIEW IS RELOADED
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetScene) name:@"ResetGame" object:nil];
+        
+        //USED TO ADD TEST OBJECTS
+        //[self addTestObjects];
+        
+        
+        
+        moveLeft = [SKAction moveToX:(wubbles.position.x-1) duration:1/60];
+        moveRight = [SKAction moveToX:(wubbles.position.x+1) duration:1/60];
+        
+        motionManager = [[CMMotionManager alloc] init];
+        offSet = [[NSUserDefaults standardUserDefaults] floatForKey:@"OffSet"];
+        
+        
     }
     return self;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)addPipes{
     
-}
--(void)update:(CFTimeInterval)currentTime {
+    int randomX = arc4random()%160;
+    randomX = randomX - 80;
+    move = [SKAction moveByX:0 y:-750 duration:7.5];
+    SKTexture *leftBarTexture = [SKTexture textureWithImage:[UIImage imageNamed:@"greenbarleft.png"]];
+    SKTexture *rightBarTexture = [SKTexture textureWithImage:[UIImage imageNamed:@"greenbarright.png"]];
+    
+    leftBar1 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarleft.png"];
+    leftBar1.physicsBody = [SKPhysicsBody bodyWithTexture:leftBarTexture size:CGSizeMake(leftBar1.size.width,leftBar1.size.height)];
+    leftBar1.physicsBody.dynamic = NO;
+    leftBar1.physicsBody.categoryBitMask = obsticleCategory;
+    leftBar1.position = CGPointMake(randomX, 568 +100);
+    leftBar1.zPosition = 0;
+    
+    randomX = arc4random()%160;
+    randomX = randomX - 80;
+    leftBar2 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarleft.png"];
+    leftBar2.physicsBody = [SKPhysicsBody bodyWithTexture:leftBarTexture size:CGSizeMake(leftBar2.size.width,leftBar2.size.height)];
+    leftBar2.physicsBody.dynamic = NO;
+    leftBar2.physicsBody.categoryBitMask = obsticleCategory;
+    leftBar2.position = CGPointMake(randomX, 568+290);
+    leftBar2.zPosition = 0;
+    
+    randomX = arc4random()%160;
+    randomX = randomX - 80;
+    leftBar3 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarleft.png"];
+    leftBar3.physicsBody = [SKPhysicsBody bodyWithTexture:leftBarTexture size:CGSizeMake(leftBar3.size.width,leftBar3.size.height)];
+    leftBar3.physicsBody.dynamic = NO;
+    leftBar3.physicsBody.categoryBitMask = obsticleCategory;
+    leftBar3.position = CGPointMake(randomX, 568+480);
+    leftBar3.zPosition = 0;
+    
+    randomX = arc4random()%160;
+    randomX = randomX - 80;
+    leftBar4 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarleft.png"];
+    leftBar4.physicsBody = [SKPhysicsBody bodyWithTexture:leftBarTexture size:CGSizeMake(leftBar4.size.width,leftBar4.size.height)];
+    leftBar4.physicsBody.dynamic = NO;
+    leftBar4.physicsBody.categoryBitMask = obsticleCategory;
+    leftBar4.position = CGPointMake(randomX, 568+670);
+    leftBar4.zPosition = 0;
+    
+    
+    
+    rightBar1 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarright.png"];
+    rightBar1.physicsBody = [SKPhysicsBody bodyWithTexture:rightBarTexture size:CGSizeMake(rightBar1.size.width,rightBar1.size.height)];
+    rightBar1.physicsBody.dynamic = NO;
+    rightBar1.physicsBody.categoryBitMask = obsticleCategory;
+    rightBar1.position = CGPointMake(leftBar1.position.x+330, leftBar1.position.y);
+    rightBar1.zPosition = 0;
+    
+    rightBar2 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarright.png"];
+    rightBar2.physicsBody = [SKPhysicsBody bodyWithTexture:rightBarTexture size:CGSizeMake(rightBar2.size.width,rightBar2.size.height)];
+    rightBar2.physicsBody.dynamic = NO;
+    rightBar2.physicsBody.categoryBitMask = obsticleCategory;
+    rightBar2.position = CGPointMake(leftBar2.position.x+330, leftBar2.position.y);
+    rightBar2.zPosition = 0;
+    
+    rightBar3 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarright.png"];
+    rightBar3.physicsBody = [SKPhysicsBody bodyWithTexture:rightBarTexture size:CGSizeMake(rightBar3.size.width,rightBar3.size.height)];
+    rightBar3.physicsBody.dynamic = NO;
+    rightBar3.physicsBody.categoryBitMask = obsticleCategory;
+    rightBar3.position = CGPointMake(leftBar3.position.x+330, leftBar3.position.y);
+    rightBar3.zPosition = 0;
+    
+    rightBar4 = [SKSpriteNode spriteNodeWithImageNamed:@"greenbarright.png"];
+    rightBar4.physicsBody = [SKPhysicsBody bodyWithTexture:rightBarTexture size:CGSizeMake(rightBar4.size.width,rightBar4.size.height)];
+    rightBar4.physicsBody.dynamic = NO;
+    rightBar4.physicsBody.categoryBitMask = obsticleCategory;
+    rightBar4.position = CGPointMake(leftBar4.position.x+330, leftBar4.position.y);
+    rightBar4.zPosition = 0;
+    
+    
+    
+    [self addChild:leftBar1];
+    [self addChild:leftBar2];
+    [self addChild:leftBar3];
+    [self addChild:leftBar4];
+    
+    [self addChild:rightBar1];
+    [self addChild:rightBar2];
+    [self addChild:rightBar3];
+    [self addChild:rightBar4];
     
 }
 
-@end
+-(void)addBackground{
+    
+    NSString *backgroundImage1 = @"bluesky.png";
+    NSString *backgroundImage2 = @"bluesky2.png";
+    
+    background1 = [SKSpriteNode spriteNodeWithImageNamed:backgroundImage1];
+    background2 = [SKSpriteNode spriteNodeWithImageNamed:backgroundImage2];
+    
+    background1.position = CGPointMake(self.size.width/2, 0);
+    background2.position = CGPointMake(self.size.width/2, self.size.height);
+    
+    hill = [SKSpriteNode spriteNodeWithImageNamed:@"hill.png"];
+    hill.position = CGPointMake(160, 92);
+    hill.size = CGSizeMake(320, 229);
+    
+    
+    [self addChild:background1];
+    [self addChild:background2];
+    [self addChild:hill];
+    
+}
+
+-(void)addInstructions{
+    
+    NSString *scoreBorder =@"openingborder.png";
+    instructionsBackground = [SKSpriteNode spriteNodeWithImageNamed:scoreBorder];
+    instructionsBackground.size = CGSizeMake(320, 200);
+    instructionsBackground.position = CGPointMake(160, 422);
+    instructionsBackground.alpha = 1;
+    instructions.position = CGPointMake(160, 458);
+    [self addChild:instructionsBackground];
+    
+    SKLabelNode *gameTitle = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    gameTitle.text =@"Classic";
+    gameTitle.fontSize = 39;
+    gameTitle.position = CGPointMake(0, 57);
+    gameTitle.fontColor = [SKColor colorWithRed:.23 green:.69 blue:.45 alpha:1];
+    [instructionsBackground addChild:gameTitle];
+    
+    SKLabelNode *line1 = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    line1.text =@"Keep tapping to fly";
+    line1.fontSize = 26;
+    line1.position = CGPointMake(0, 25);
+    line1.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    [instructionsBackground addChild:line1];
+    
+    SKLabelNode *line2 = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    line2.text =@"Wubbles. Tilt your device";
+    line2.fontSize = 26;
+    line2.position = CGPointMake(0, -5);
+    line2.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    [instructionsBackground addChild:line2];
+    
+    SKLabelNode *line3 = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    line3.text =@"to avoid the obsticles.";
+    line3.fontSize = 26;
+    line3.position = CGPointMake(0, -35);
+    line3.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    [instructionsBackground addChild:line3];
+    
+    highScoreIntro = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    highScoreIntro.fontSize = 35;
+    highScoreIntro.position = CGPointMake(0, -78);
+    highScoreIntro.fontColor = [SKColor colorWithRed:.23 green:.69 blue:.45 alpha:1];
+    [instructionsBackground addChild:highScoreIntro];
+    
+}
+
+-(void)addCurrentScore{
+    
+    currentScoreBackground = [SKSpriteNode spriteNodeWithImageNamed:@"openingborder.png"];
+    currentScoreBackground.position = CGPointMake(160, 703);
+    currentScoreBackground.size = CGSizeMake(320, 80);
+    currentScoreBackground.zPosition = 1;
+    [self addChild:currentScoreBackground];
+    
+    currentScoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    currentScoreLabel.position = CGPointMake(0,-12);
+    currentScoreLabel.fontSize = 42;
+    currentScoreLabel.fontColor = [SKColor colorWithRed:.23 green:.69 blue:.45 alpha:1];
+    [currentScoreBackground addChild: currentScoreLabel];
+    
+    bringInCurrentScore = [SKAction moveByX:0 y:-200 duration:2];
+    
+}
+
+-(void)addBoundries{
+    
+    bottomBoundry = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(500,10)];
+    topBoundry = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(500,10)];
+    
+    SKSpriteNode *topBoundryNode =[SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(500,10)];
+    SKSpriteNode *bottomBoundryNode =[SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(500,10)];
+    
+    topBoundryNode.position = CGPointMake(self.size.width/2, self.size.height + 50);
+    bottomBoundryNode.position = CGPointMake(self.size.width/2, -50);
+    
+    topBoundryNode.physicsBody = topBoundry;
+    bottomBoundryNode.physicsBody = bottomBoundry;
+    
+    topBoundryNode.physicsBody.dynamic = NO;
+    bottomBoundryNode.physicsBody.dynamic = NO;
+    
+    topBoundryNode.physicsBody.categoryBitMask = obsticleCategory;
+    bottomBoundryNode.physicsBody.categoryBitMask = obsticleCategory;
+    
+    [self addChild:topBoundryNode];
+    [self addChild:bottomBoundryNode];
+    
+}
+
+-(void)addMoveDownAnimation{
+    
+    int moveDownSpeed = -100;
+    
+    SKAction *moveDownInit = [SKAction moveByX:0 y:moveDownSpeed duration:1];
+    moveDown = [SKAction repeatActionForever:moveDownInit];
+    
+}
+
+-(void)addWubbles{
+    
+    NSString *wubblesImage =@"";
+    
+    int randomWubbles = arc4random()%5;
+    
+    if (randomWubbles == 0){
+        
+        wubblesImage =@"wubblesblue.png";
+    }
+    else if (randomWubbles == 1){
+        
+        wubblesImage =@"wubblesblue.png";
+    }
+    else if (randomWubbles == 2){
+        
+        wubblesImage =@"wubblesblue.png";
+    }
+    else if (randomWubbles == 3){
+        
+        wubblesImage =@"wubblesblue.png";
+    }
+    else{
+        
+        wubblesImage =@"wubblesblue.png";
+    }
+    
+    wubbles = [SKSpriteNode spriteNodeWithImageNamed:wubblesImage];
+    wubbles.size = CGSizeMake(40, 40);
+    wubbles.position = CGPointMake(160, 110);
+    wubbles.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:20];
+    wubbles.physicsBody.mass = .01;
+    wubbles.physicsBody.linearDamping =8;
+    wubbles.physicsBody.dynamic=NO;
+    wubbles.physicsBody.categoryBitMask = playerCategory;
+    wubbles.physicsBody.contactTestBitMask = obsticleCategory | itemCategory;
+    
+    [self addChild:wubbles];
+}
+
+-(void)addHands{
+    
+    tap = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    tap.fontSize = 36;
+    tap.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    tap.text = @"Tap!";
+    tap.position = CGPointMake(160, 210);
+    [self addChild:tap];
+    
+    topHand = [SKSpriteNode spriteNodeWithImageNamed:@"handdown.png"];
+    bottomHand = [SKSpriteNode spriteNodeWithImageNamed:@"handup.png"];
+    topHand.size = CGSizeMake(32, 35);
+    bottomHand.size = CGSizeMake(32, 35);
+    topHand.position = CGPointMake(0, 54);
+    bottomHand.position = CGPointMake(0, -34);
+    [tap addChild:topHand];
+    [tap addChild:bottomHand];
+    
+    SKAction *fadeOut= [SKAction fadeOutWithDuration:.7];
+    SKAction *fadeIn = [SKAction fadeInWithDuration:.7];
+    NSArray *fadeInAndOut = [NSArray arrayWithObjects:fadeOut, fadeIn, nil];
+    SKAction *fadeInAndOutAction = [SKAction sequence:fadeInAndOut];
+    SKAction *fadeRepeating = [SKAction repeatActionForever:fadeInAndOutAction];
+    [topHand runAction:fadeRepeating];
+    [bottomHand runAction:fadeRepeating];
+    
+}
+
+-(void)addMenuButton{
+    
+    //ADD BACKGROUND OF MENU BUTTON (A TRANSPARANT RECTANGLE)
+    menuBackGround = [SKSpriteNode spriteNodeWithImageNamed:@"flatborder.png"];
+    menuBackGround.size = CGSizeMake(320, 52);
+    menuBackGround.position = CGPointMake(160, 26);
+    menuBackGround.zPosition = 99;
+    [self addChild:menuBackGround];
+    
+    
+    //CREATE ACTION TO MOVE LEFT TO RIGHT, INSTINTLY BACK LEFT, THEN REPEAT
+    SKAction *moveRight = [SKAction moveByX:650 y:0 duration:5];
+    SKAction *moveBack = [SKAction moveByX:-650 y:0 duration:0];
+    NSArray *moveFowardThenBack = [NSArray arrayWithObjects:moveRight, moveBack, nil];
+    SKAction *moveFowardThenBackAction = [SKAction sequence:moveFowardThenBack];
+    SKAction *moveFowardThenBackActionRepeating = [SKAction repeatActionForever:moveFowardThenBackAction];
+    
+    
+    //ADD A LABEL TO THE MENU BUTTON
+    menuLabel = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    menuLabel.text =@"Return to Menu";
+    menuLabel.fontSize = 30;
+    menuLabel.position = CGPointMake(0, -10);
+    menuLabel.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    [menuBackGround addChild:menuLabel];
+    
+    
+    //SET UP MASK EFFECT
+    SKSpriteNode *mask = [SKSpriteNode spriteNodeWithImageNamed:@"block.png"]; //IMAGE TO BE PASSED TROUGHT TEXT
+    mask.alpha = .8;
+    mask.size = CGSizeMake(70,52);
+    
+    
+    SKCropNode *cropping = [SKCropNode node];//ADD CROPPING NODE
+    cropping.position = CGPointMake( 0, 0);//SET CROPPING TO NO OFFSET 0,0
+    mask.position = CGPointMake(-160, 0);//MOVE MASK TO START OF TEXT
+    [menuBackGround addChild: cropping];//ADD CROPPING TO MAIN NODE
+    [cropping addChild: mask];//ADD MASK TO CROPPING
+    [cropping setMaskNode: menuLabel];//SET CROPPING TO FOLLOW TEXT
+    
+    
+    //MOVE MASK USING PREVIOUSLY CREATED ACTION
+    [mask runAction:moveFowardThenBackActionRepeating];
+    
+}
+
+-(void)addMotionSensor{
+    
+    
+    
+    
+}
+
+-(void)addTestObjects{
+    
+    SKSpriteNode *testBox = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(200, 50)];
+    testBox.position = CGPointMake(self.size.width/2, self.size.height/2);
+    
+    SKPhysicsBody *testPhysicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(200, 50) center:CGPointMake(self.size.width/2, self.size.height/2)];
+    
+    testBox.physicsBody = testPhysicsBody;
+    testBox.physicsBody.dynamic = NO;
+    testBox.physicsBody.categoryBitMask = obsticleCategory;
+    [self addChild:testBox];
+    
+    
+}
+
+
+#pragma Game Methods
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [wubbles.physicsBody applyImpulse:CGVectorMake(0, 10)];
+    
+    if (gameRunning == NO){
+        
+        [self runGame];
+        
+    }
+    
+}
+
+-(void)runGame{
+    
+    [self cleanUp];
+    [motionManager startDeviceMotionUpdates];
+    
+    
+    tap.hidden = YES;
+    [self.delegate startGame];
+    [background1 runAction:moveDown];
+    [background2 runAction:moveDown];
+    [instructionsBackground runAction:moveDown];
+    [hill runAction:moveDown];
+    [menuBackGround runAction:moveDown];
+    [currentScoreBackground runAction:bringInCurrentScore];
+    
+    wubbles.physicsBody.dynamic = YES;
+    [wubbles.physicsBody applyImpulse:CGVectorMake(0, 10)];
+    
+    virticleMovmentFromScrollingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(increaseScore) userInfo:nil repeats:YES];
+    
+    gameRunning = YES;
+    updateScore = YES;
+    
+    move1 = [SKAction moveByX:0 y:-700 duration:7];
+    move2 = [SKAction moveByX:0 y:-890 duration:8.9];
+    move3 = [SKAction moveByX:0 y:-1080 duration:10.8];
+    move4 = [SKAction moveByX:0 y:-1270 duration:12.7];
+    //-32
+    
+    [self addPipes];
+    
+    [leftBar1 runAction:move1 completion:^{ [self replaceBar:leftBar1]; }];
+    [leftBar2 runAction:move2 completion:^{ [self replaceBar:leftBar2]; }];
+    [leftBar3 runAction:move3 completion:^{ [self replaceBar:leftBar3]; }];
+    [leftBar4 runAction:move4 completion:^{ [self replaceBar:leftBar4]; }];
+    
+}
+
+-(void)replaceBar:(SKSpriteNode *)bar{
+    
+    if(zoneNumber ==1){
+        
+        int randomX = arc4random()%54;
+        randomX = randomX - 80;
+        
+        bar.position = CGPointMake(randomX, 728);
+        
+    }
+    else if (zoneNumber ==2){
+        
+        int randomX = arc4random()%54;
+        randomX = randomX - 25;
+        
+        bar.position = CGPointMake(randomX, 728);
+        
+    }
+    else{
+        
+        int randomX = arc4random()%54;
+        randomX = randomX + 30;
+        
+        bar.position = CGPointMake(randomX, 728);
+        
+    }
+    
+    
+    
+    zonePicker = arc4random()%10;
+    zonePicker = zonePicker +1;
+    
+    if (zoneNumber == 1){
+        
+        if (zonePicker < 5){
+            
+            zoneNumber = 2;
+        }
+        else if (zonePicker < 10){
+            
+            zoneNumber = 3;
+        }
+        else{
+            
+            zoneNumber = 1;
+        }
+    }
+    else if (zoneNumber == 2){
+        
+        if (zonePicker < 5){
+            
+            zoneNumber = 1;
+        }
+        else if (zonePicker < 10){
+            
+            zoneNumber = 3;
+        }
+        else{
+            
+            zoneNumber = 2;
+        }
+        
+    }
+    else{
+        
+        if (zonePicker < 5){
+            
+            zoneNumber = 1;
+        }
+        else if (zonePicker < 10){
+            
+            zoneNumber = 2;
+        }
+        else{
+            
+            zoneNumber = 3;
+        }
+    }
+    
+    
+    [self moveBarDown:bar];
+    
+}
+
+-(void)moveBarDown:(SKSpriteNode *)bar{
+    
+    [bar runAction:move completion:^{
+        
+        [self replaceBar:bar];
+    }];
+}
+
+
+#pragma gameOver
+
+-(void)gameOver{
+    
+    [wubbles removeFromParent];
+    [motionManager stopDeviceMotionUpdates];
+    movement = 0;
+    
+    updateScore = NO;
+    [virticleMovmentFromScrollingTimer invalidate];
+    
+    [self endingPlayerAnimation];
+    [self.delegate endGame];
+    [self stopAnimation];
+    [self gameOverAnimation];
+    
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@"Classic" forKey:@"mode"];
+    [[NSUserDefaults standardUserDefaults] setInteger:awardedScore forKey:@"awardedScore"];
+    
+    [self bringInEndingScreen];
+    
+}
+
+-(void)removePipes{
+    
+    SKAction *fadeOut = [SKAction fadeAlphaTo:0 duration:1];
+    
+    [leftBar1 runAction:fadeOut completion:^{[leftBar1 removeFromParent];}];
+    [leftBar2 runAction:fadeOut completion:^{[leftBar2 removeFromParent];}];
+    [leftBar3 runAction:fadeOut completion:^{[leftBar3 removeFromParent];}];
+    [leftBar4 runAction:fadeOut completion:^{[leftBar4 removeFromParent];}];
+    
+    [rightBar1 runAction:fadeOut completion:^{[rightBar1 removeFromParent];}];
+    [rightBar2 runAction:fadeOut completion:^{[rightBar2 removeFromParent];}];
+    [rightBar3 runAction:fadeOut completion:^{[rightBar3 removeFromParent];}];
+    [rightBar4 runAction:fadeOut completion:^{[rightBar4 removeFromParent];}];
+    
+    
+}
+
+-(void)endingPlayerAnimation{
+    
+    SKSpriteNode *endingWubbles = [SKSpriteNode spriteNodeWithImageNamed:@"wubblesblue.png"];
+    endingWubbles.size = wubbles.size;
+    endingWubbles.position = wubbles.position;
+    
+    [wubbles removeFromParent];
+    [self addChild:endingWubbles];
+    
+    UIBezierPath* bezierPath = UIBezierPath.bezierPath;
+    [bezierPath moveToPoint: CGPointMake(0.5, 0.67)];
+    [bezierPath addCurveToPoint: CGPointMake(16.66, 58.5) controlPoint1: CGPointMake(0.5, 0.67) controlPoint2: CGPointMake(0.99, 58.5)];
+    [bezierPath addCurveToPoint: CGPointMake(94.5, -634.5) controlPoint1: CGPointMake(32.32, 58.5) controlPoint2: CGPointMake(48.48, -28.74)];
+    
+    SKAction *endingWubblesAction = [SKAction followPath:bezierPath.CGPath duration:2];
+    [endingWubbles runAction:endingWubblesAction completion:^{
+        
+        [self removePipes];
+        [endingWubbles removeFromParent];
+        
+    }];
+    
+}
+
+-(void)stopAnimation{
+    
+    [background1 removeAllActions];
+    [background2 removeAllActions];
+    [currentScoreBackground removeAllActions];
+    [instructionsBackground removeAllActions];
+    [hill removeAllActions];
+    [menuBackGround removeAllActions];
+    [leftBar1 removeAllActions];
+    [leftBar2 removeAllActions];
+    [leftBar3 removeAllActions];
+    [leftBar4 removeAllActions];
+    
+    [rightBar1 removeAllActions];
+    [rightBar2 removeAllActions];
+    [rightBar3 removeAllActions];
+    [rightBar4 removeAllActions];
+    
+    
+}
+
+-(void)gameOverAnimation{
+    
+    SKAction *moveDownFast = [SKAction moveByX:0 y:-600 duration:2];
+    [instructionsBackground runAction:moveDownFast];
+    [currentScoreBackground runAction:moveDownFast completion:^{
+        
+        [currentScoreBackground removeFromParent];
+        
+    }];
+    [hill runAction:moveDownFast];
+    
+    
+}
+
+-(void)addEndingScreen{
+    
+    
+    gameOverBackground = [SKSpriteNode spriteNodeWithImageNamed:@"bg.png"];
+    gameOverBackground.size = CGSizeMake(300, 289);
+    gameOverBackground.position = CGPointMake(160, 852);
+    gameOverBackground.zPosition = 99;
+    
+    
+    gameOverLabel1 = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    gameOverLabel1.text =@"You Win!";
+    gameOverLabel1.fontSize = 45;
+    gameOverLabel1.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    gameOverLabel1.position = CGPointMake(0, 90);
+    
+    
+    gameOverLabel2 = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    gameOverLabel2.text =@"Game Over!";
+    gameOverLabel2.fontSize = 45;
+    gameOverLabel2.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    gameOverLabel2.position = CGPointMake(0, 90);
+    
+    
+    
+    newHighScore = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    newHighScore.text =[NSString stringWithFormat:@"NEW HIGH SCORE"];
+    newHighScore.fontSize = 30;
+    newHighScore.fontColor = [SKColor colorWithRed:.43 green:.78 blue:.90 alpha:.9];
+    newHighScore.position = CGPointMake(0, -70);
+    
+    
+    
+    bestLabel = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    bestLabel.text =[NSString stringWithFormat:@"Best: 0"];
+    bestLabel.fontSize = 34;
+    bestLabel.fontColor = [SKColor colorWithRed:.36 green:.35 blue:.35 alpha:1];
+    bestLabel.position = CGPointMake(60, -80);
+    
+    
+    
+    yourScore = [SKLabelNode labelNodeWithFontNamed:@"Arial Rounded MT Bold"];
+    yourScore.fontSize = 85;
+    yourScore.fontColor = [SKColor colorWithRed:.23 green:.69 blue:.45 alpha:1];
+    yourScore.text = @"0 ft";
+    yourScore.position = CGPointMake(0, -15);
+    
+    
+    
+    [self addChild:gameOverBackground];
+    [gameOverBackground addChild:bestLabel];
+    [gameOverBackground addChild:gameOverLabel1];
+    [gameOverBackground addChild:gameOverLabel2];
+    [gameOverBackground addChild:yourScore];
+    
+    
+    
+    
+    
+    
+    textEffect =  [NSKeyedUnarchiver unarchiveObjectWithFile:[[NSBundle mainBundle] pathForResource:@"Text Effect" ofType:@"sks"]];
+    cropping2 = [SKCropNode node];//ADD CROPPING NODE
+    cropping2.position = CGPointMake(0,0);
+    textEffect.position= CGPointMake(newHighScore.position.x, newHighScore.position.y);
+    
+    [gameOverBackground addChild: cropping2];//ADD CROPPING TO MAIN NODE
+    [cropping2 addChild: textEffect];//ADD MASK TO CROPPING
+    [cropping2 setMaskNode: newHighScore];//SET CROPPING TO FOLLOW TEXT
+    
+    
+}
+
+-(void)bringInEndingScreen{
+    
+    topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreSimple"];
+    awardedScore =[[NSUserDefaults standardUserDefaults] integerForKey:@"awardedScore"];
+    
+    gameOverBackground.position = CGPointMake(160, 852);
+    menuBackGround.position = CGPointMake(gameOverBackground.position.x, gameOverBackground.position.y+237);
+    
+    menuBackGround.hidden = NO;
+    
+    SKAction *bringInGameOverScreen1 = [SKAction moveByX:0 y:-568 duration:1.89];
+    
+    if (awardedScore > topScore){
+        
+        gameOverLabel1.hidden = NO;
+        gameOverLabel2.hidden = YES;
+        newHighScore.hidden = YES;
+        bestLabel.hidden = YES;
+        
+    }
+    else{
+        
+        gameOverLabel1.hidden = YES;
+        gameOverLabel2.hidden = NO;
+        newHighScore.hidden = YES;
+        bestLabel.hidden = NO;
+        bestLabel.text =[NSString stringWithFormat:@"Best: %i",topScore];
+    }
+    
+    
+    
+    [gameOverBackground runAction:bringInGameOverScreen1 completion:^{
+        
+        [self.delegate enableButtons];
+        [self updateScoreCycle:awardedScore];
+        
+    }];
+    [menuBackGround runAction:bringInGameOverScreen1 completion:^{
+        
+        
+    }];
+    
+    
+}
+
+-(void)updateScoreCycle:(int)awardedScore{
+    
+    
+    if (awardedScore <= 30){
+        
+        updateScoreTimer1 = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateScoreRepeating) userInfo:nil repeats:YES];
+        
+    }
+    else{
+        
+        num = (float)3/(float)awardedScore;
+        updateScoreTimer2 = [NSTimer scheduledTimerWithTimeInterval:num target:self selector:@selector(updateScoreRepeating) userInfo:nil repeats:YES];
+        
+    }
+}
+
+-(void)updateScoreRepeating{
+    
+    awardedScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"awardedScore"];
+    
+    if (awardedScore == 0){
+        [updateScoreTimer1 invalidate];
+        [updateScoreTimer2 invalidate];
+        
+    }
+    else{
+        
+        temp = temp + 1;
+        
+        NSString *label = [NSString stringWithFormat:@""];
+        label = [NSString stringWithFormat:@"%i ft",temp];
+        yourScore.text = label;
+        
+        
+        
+        
+        
+        if (temp == awardedScore){
+            
+            [updateScoreTimer1 invalidate];
+            [updateScoreTimer2 invalidate];
+            
+        }
+        if ((temp > topScore)&& (temp >= awardedScore)){
+            
+            newHighScore.hidden = NO;
+            [updateScoreTimer1 invalidate];
+            [updateScoreTimer2 invalidate];
+            
+            [self setScore];
+            [self updateInstructions];
+        }
+        
+    }
+}
+
+
+#pragma contact
+
+-(void)didBeginContact:(SKPhysicsContact *)contact{
+    if ((contact.bodyA.categoryBitMask == playerCategory) && (contact.bodyB.categoryBitMask == obsticleCategory)&&(addMenuBackground == YES)){
+        [self gameOver];
+        addMenuBackground = NO;
+    }
+    else if ((contact.bodyA.categoryBitMask == obsticleCategory) && (contact.bodyB.categoryBitMask == playerCategory) && (addMenuBackground == YES)){
+        [self gameOver];
+        addMenuBackground = NO;
+    }
+}
+
+
+#pragma reset methods
+
+-(void)resetPlacement{
+    
+    
+    hill.position = CGPointMake(160, -476);
+    instructionsBackground.position = CGPointMake(160, -146);
+    
+    
+    
+}
+
+-(void)resetAnimation{
+    
+    SKAction *moveUpFast = [SKAction moveByX:0 y:568 duration:1.89];
+    SKAction *moveUpFastPart1 = [SKAction moveByX:0 y:100 duration:.33];
+    SKAction *moveUpFastPart2 = [SKAction moveByX:0 y:468 duration:1.55];
+    
+    
+    [hill runAction:moveUpFast];
+    [gameOverBackground runAction:moveUpFast completion:^{yourScore.text =@"0 ft";}];
+    
+    [menuBackGround runAction:moveUpFastPart1 completion:^{
+        
+        [menuBackGround removeFromParent];
+        [self addMenuButton];
+        menuBackGround.position = CGPointMake(160, -442);
+        [menuBackGround runAction:moveUpFastPart2 completion:^{
+            
+            
+        }
+         ];
+    }];
+    
+    [instructionsBackground runAction:moveUpFast completion:^{
+        
+        [self addContent];
+        gameRunning = NO;
+        
+        [self.delegate resetGame];
+        
+    }];
+    
+    
+    
+    
+}
+
+-(void)cleanUp{
+    
+    virticleMovementFromScrolling = 0;
+    virticleMovementFromFlapping = 0;
+    currentScoreValue = 0;
+    awardedScore = 0;
+    temp = 0;
+    addMenuBackground = YES;
+}
+
+-(void)addContent{
+    
+    
+    [self addCurrentScore];
+    [self addWubbles];
+    [self addHands];
+    
+    
+    
+}
+
+
+#pragma delegate methods
+
+-(void)resetScene{
+    
+    
+    
+    [self resetPlacement];
+    [self resetAnimation];
+    
+    
+    
+}
+
+-(void)addTestObject{
+    
+    SKSpriteNode *testNode = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(320, 40)];
+    testNode.position = CGPointMake(self.size.width/2, self.size.height/2);
+    
+    [self addChild:testNode];
+    
+}
+
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self]; // USED TO RELEASE SELF WHEN VIEW IS RELOADED
+    [motionManager stopDeviceMotionUpdates];
+    motionManager = nil;
+    
+    
+}
+
+
+#pragma scoring
+
+-(void)update:(CFTimeInterval)currentTime {
+    
+    [self updateWubblesPosition];
+    
+    rightBar1.position = CGPointMake(leftBar1.position.x+330, leftBar1.position.y);
+    rightBar2.position = CGPointMake(leftBar2.position.x+330, leftBar2.position.y);
+    rightBar3.position = CGPointMake(leftBar3.position.x+330, leftBar3.position.y);
+    rightBar4.position = CGPointMake(leftBar4.position.x+330, leftBar4.position.y);
+    
+    
+    if (updateScore == YES){
+        
+        [self updateScore];
+    }
+    
+    if(background1.position.y<-(self.size.height/2)){
+        
+        background1.position = CGPointMake(background1.position.x, self.size.height + (self.size.height/2));
+    }
+    else if (background2.position.y<-(self.size.height/2)){
+        
+        background2.position = CGPointMake(background2.position.x, self.size.height + (self.size.height/2));
+    }
+    if(wubbles.position.x < -12){
+        
+        wubbles.position = CGPointMake(372, wubbles.position.y);
+    }
+    else if (wubbles.position.x > 372){
+        
+        wubbles.position = CGPointMake(-12, wubbles.position.y);
+    }
+    
+    
+}
+
+- (void)updateWubblesPosition
+{
+    
+    
+    movement = (motionManager.deviceMotion.attitude.roll - offSet) * 6.37;
+    
+    if (gameRunning == NO){
+        
+        movement = 0;
+    }
+    
+    SKAction *moveWubbles = [SKAction moveByX:movement y:0 duration:1/60];
+    
+    
+    
+    
+    float rotateAmount = -motionManager.deviceMotion.attitude.roll + offSet;
+    float rotateAmountAbs = abs(rotateAmount);
+    
+    SKAction *rotate = [SKAction rotateToAngle:rotateAmount duration:((rotateAmountAbs / 1.57)/.5 )];
+    
+    if (gameRunning == YES){
+        
+        [wubbles runAction:rotate];
+    }
+    
+    
+    
+    [wubbles runAction:moveWubbles];
+
+    
+}
+
+-(void)increaseScore{
+    
+    virticleMovementFromScrolling = virticleMovementFromScrolling + 1;
+}
+
+-(void)setScore{
+    
+    topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreSimple"];
+    
+    if (awardedScore > topScore){
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:awardedScore forKey:@"TopScoreSimple"];
+        
+    }
+    
+}
+
+-(void)updateScore{
+    
+    virticleMovementFromFlapping = ((wubbles.position.y - 110)/100);
+    currentScoreValue = virticleMovementFromFlapping + virticleMovementFromScrolling;
+    NSString *currentUnit =@"Feet";
+    
+    if (awardedScore != 1){
+        
+        currentUnit = @"Feet";
+    }
+    
+    else{
+        
+        currentUnit =@"Foot";
+    }
+    
+    if (currentScoreValue >= awardedScore){
+        
+        currentScoreLabel.text = [NSString stringWithFormat:@"%i %@", currentScoreValue, currentUnit];
+        awardedScore = currentScoreValue;
+        
+    }
+    
+    
+}
+
+-(void)updateInstructions{
+    topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreSimple"];
+    
+    highScoreIntro.text =[NSString stringWithFormat:@"High Score: %i", topScore];
+    
+    
+}@end

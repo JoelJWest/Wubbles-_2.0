@@ -9,9 +9,22 @@
 #import "ViewController.h"
 #import "ClassicScene.h"
 #import "SimpleScene.h"
+
+@interface ViewController ()
+
+
+// A flag indicating whether the Game Center features can be used after a user has been authenticated.
+@property (nonatomic) BOOL gameCenterEnabled;
+
+// This property stores the default leaderboard's identifier.
+@property (nonatomic, strong) NSString *leaderboardIdentifier;
+
+
+
+@end
+
+
 @implementation ViewController
-
-
 
 
 #pragma Methods That are Called By Classic Scene
@@ -58,9 +71,42 @@
     swipeRight.enabled = YES;
 }
 
+
 #pragma Initilizatin Methods
 
 -(void)viewDidLoad{
+  
+    
+    initialBackground.hidden =NO;
+    leaderBoardView.hidden = YES;
+    settingsView.hidden = YES;
+    aboutView.hidden = YES;
+    
+    delayTime = .3;
+    [self menuExitAnimation:classic];
+    [self menuExitAnimation:simple];
+    [self menuExitAnimation:reverse];
+    [self menuExitAnimation:fast];
+    [self menuExitAnimation:settings];
+    [self menuExitAnimation:about];
+    
+    
+    leaderBoardView.hidden = NO;
+    
+    // Configure the view.
+    gameCenterSceneView = (SKView *)self.view;
+    gameCenterSceneView.showsFPS = NO;
+    gameCenterSceneView.showsNodeCount = NO;
+    gameCenterSceneView.showsPhysics = NO;
+    
+    // Create and configure the scene.
+    GameCenterScene *cgs = [GameCenterScene sceneWithSize:gameCenterSceneView.bounds.size];
+    cgs.scaleMode = SKSceneScaleModeAspectFill;
+    
+    
+    // Present the scene.
+    [gameCenterSceneView presentScene:cgs];
+ 
     
     iAd.hidden = YES;
     googleBanner.hidden = YES;
@@ -98,7 +144,14 @@
     [[self view] addGestureRecognizer:swipeRight];
     swipeRight.enabled = NO;
     
+    leaderBoardView.hidden = YES;
     
+    [backgroundMusicSwitch addTarget:self action:@selector(changeSwitchBackground:) forControlEvents:UIControlEventValueChanged];
+    [soundEffectSwitch addTarget:self action:@selector(changeSwitchEffect:) forControlEvents:UIControlEventValueChanged];
+    
+    [self setSwitches];
+
+    [self addTestArray];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -109,10 +162,16 @@
 
 
 
-#pragma Button Methods (IBAction)
+#pragma UI Button Methods (IBAction)
 
 -(IBAction)classicButton:(id)sender{
+    
+    [self cleanAllViews];
+    
     initialBackground.hidden = YES;
+    leaderBoardView.hidden = YES;
+    settingsView.hidden = YES;
+    aboutView.hidden = YES;
     
     delayTime = .3;
     [self menuExitAnimation:classic];
@@ -123,19 +182,19 @@
     [self menuExitAnimation:about];
     
     // Configure the view.
-    skView = (SKView *)self.view;
-    //skView.showsFPS = YES;
-    //skView.showsNodeCount = YES;
-    
+    classicSceneView = (SKView *)self.view;
+    classicSceneView.showsFPS = NO;
+    classicSceneView.showsNodeCount = NO;
+    classicSceneView.showsPhysics = NO;
     
     // Create and configure the scene.
-    ClassicScene *classicScene = [ClassicScene sceneWithSize:skView.bounds.size];
+    ClassicScene *classicScene = [ClassicScene sceneWithSize:classicSceneView.bounds.size];
     classicScene.scaleMode = SKSceneScaleModeAspectFill;
     
     classicScene.delegate = self;
     
     // Present the scene.
-    [skView presentScene:classicScene];
+    [classicSceneView presentScene:classicScene];
     
     
     
@@ -144,7 +203,110 @@
 }
 
 -(IBAction)simpleButton:(id)sender{
+      [self cleanAllViews];
     initialBackground.hidden = YES;
+    leaderBoardView.hidden = YES;
+    settingsView.hidden = YES;
+    aboutView.hidden = YES;
+    delayTime = .3;
+    
+    
+    [self menuExitAnimation:classic];
+    [self menuExitAnimation:simple];
+    [self menuExitAnimation:reverse];
+    [self menuExitAnimation:fast];
+    [self menuExitAnimation:settings];
+    [self menuExitAnimation:about];
+    
+    // Configure the view.
+    simpleSceneView  = (SKView *)self.view;
+    simpleSceneView.showsFPS = YES;
+    simpleSceneView.showsNodeCount = YES;
+    
+    // Create and configure the scene.
+    SimpleScene *simpleScene = [SimpleScene sceneWithSize:simpleSceneView.bounds.size];
+    simpleScene.scaleMode = SKSceneScaleModeAspectFill;
+    simpleScene.delegate = self;
+    
+    // Present the scene.
+    [simpleSceneView presentScene:simpleScene];
+    
+    
+}
+
+-(IBAction)reverseButton:(id)sender{
+      [self cleanAllViews];
+    initialBackground.hidden = YES;
+    leaderBoardView.hidden = YES;
+    settingsView.hidden = YES;
+    aboutView.hidden = YES;
+    delayTime = .3;
+    
+    
+    [self menuExitAnimation:classic];
+    [self menuExitAnimation:simple];
+    [self menuExitAnimation:reverse];
+    [self menuExitAnimation:fast];
+    [self menuExitAnimation:settings];
+    [self menuExitAnimation:about];
+    
+    // Configure the view.
+    reverseSceneView  = (SKView *)self.view;
+    reverseSceneView.showsFPS = YES;
+    reverseSceneView.showsNodeCount = YES;
+    reverseSceneView.showsPhysics = NO;
+    
+    // Create and configure the scene.
+    ReverseScene *reverseScene = [ReverseScene sceneWithSize:reverseSceneView.bounds.size];
+    reverseScene.scaleMode = SKSceneScaleModeAspectFill;
+    reverseScene.delegate = self;
+    
+    // Present the scene.
+    [reverseSceneView presentScene:reverseScene];
+    
+    
+}
+
+-(IBAction)gameCenterButton:(id)sender{
+ 
+      [self cleanAllViews];
+    initialBackground.hidden = YES;
+    leaderBoardView.hidden = NO;
+    settingsView.hidden = YES;
+    aboutView.hidden = YES;
+    
+    delayTime = .3;
+    [self menuExitAnimation:classic];
+    [self menuExitAnimation:simple];
+    [self menuExitAnimation:reverse];
+    [self menuExitAnimation:fast];
+    [self menuExitAnimation:settings];
+    [self menuExitAnimation:about];
+
+  
+
+    
+    // Configure the view.
+    gameCenterSceneView = (SKView *)self.view;
+    gameCenterSceneView.showsFPS = NO;
+    gameCenterSceneView.showsNodeCount = NO;
+    gameCenterSceneView.showsPhysics = NO;
+    
+    // Create and configure the scene.
+    GameCenterScene *cgs = [GameCenterScene sceneWithSize:gameCenterSceneView.bounds.size];
+    cgs.scaleMode = SKSceneScaleModeAspectFill;
+    
+    
+    // Present the scene.
+    [gameCenterSceneView presentScene:cgs];
+}
+
+-(IBAction)settingsButton:(id)sender{
+      [self cleanAllViews];
+    initialBackground.hidden = YES;
+    leaderBoardView.hidden = YES;
+    settingsView.hidden = NO;
+    aboutView.hidden = YES;
     
     delayTime = .3;
     [self menuExitAnimation:classic];
@@ -154,21 +316,107 @@
     [self menuExitAnimation:settings];
     [self menuExitAnimation:about];
     
+    
+    leaderBoardView.hidden = NO;
+    
     // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    //skView.showsFPS = YES;
-    //skView.showsNodeCount = YES;
+    gameCenterSceneView = (SKView *)self.view;
+    gameCenterSceneView.showsFPS = NO;
+    gameCenterSceneView.showsNodeCount = NO;
+    gameCenterSceneView.showsPhysics = NO;
     
     // Create and configure the scene.
-    SKScene * scene = [SimpleScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    
+    GameCenterScene *cgs = [GameCenterScene sceneWithSize:gameCenterSceneView.bounds.size];
+    cgs.scaleMode = SKSceneScaleModeAspectFill;
     
     
     // Present the scene.
-    [skView presentScene:scene];
+    [gameCenterSceneView presentScene:cgs];
+    
+    callibrateManager = [[CMMotionManager alloc] init];
+    callibrateManager.deviceMotionUpdateInterval = 1/60;
+    [callibrateManager startDeviceMotionUpdates];
+
+}
+
+-(IBAction)callibrate:(id)sender{
+  
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@""
+                                  message:@"Hold your deivce in the positioin in which you wish to play and press callibrate. This setting will reset when Wubbles is restarted."
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"Callibrate"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             [self callibrate];
+                             
+                         }];
     
     
+    [alert addAction:ok];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+   
+}
+
+-(void)callibrate{
+    
+      refrenceAttitude = callibrateManager.deviceMotion.attitude;
+//    
+//
+//    
+      calibrateTest.text = [NSString stringWithFormat:@"%f", callibrateManager.deviceMotion.attitude.roll];
+      calibrateTest.hidden = YES;
+//    
+    [[NSUserDefaults standardUserDefaults] setFloat:callibrateManager.deviceMotion.attitude.roll forKey:@"OffSet"];
+    
+    
+
+}
+
+-(IBAction)aboutButton:(id)sender{
+    [self cleanAllViews];
+    initialBackground.hidden = YES;
+    leaderBoardView.hidden = YES;
+    settingsView.hidden = YES;
+    aboutView.hidden = NO;
+    
+    delayTime = .3;
+    [self menuExitAnimation:classic];
+    [self menuExitAnimation:simple];
+    [self menuExitAnimation:reverse];
+    [self menuExitAnimation:fast];
+    [self menuExitAnimation:settings];
+    [self menuExitAnimation:about];
+    
+    
+    leaderBoardView.hidden = NO;
+    
+    // Configure the view.
+    gameCenterSceneView = (SKView *)self.view;
+    gameCenterSceneView.showsFPS = NO;
+    gameCenterSceneView.showsNodeCount = NO;
+    gameCenterSceneView.showsPhysics = NO;
+    
+    // Create and configure the scene.
+    GameCenterScene *cgs = [GameCenterScene sceneWithSize:gameCenterSceneView.bounds.size];
+    cgs.scaleMode = SKSceneScaleModeAspectFill;
+    
+    
+    // Present the scene.
+    [gameCenterSceneView presentScene:cgs];
+    
+    
+}
+
+-(IBAction)rate:(id)sender{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/wubbles!/id905823698?ls=1&mt=8"]];
 }
 
 -(IBAction)menuButton:(id)sender{
@@ -197,8 +445,8 @@
     
     swipeRight.enabled = NO;
     
+    callibrateManager = nil;
 }
-
 
 -(void)menuButton{
     
@@ -225,7 +473,10 @@
     [self menuIntroductionAnimation:about];
     
     swipeRight.enabled = NO;
+    
+    callibrateManager = nil;
 }
+
 
 #pragma Animation Methods
 
@@ -241,6 +492,7 @@
     swipeRight.enabled = YES;
     
 }
+
 -(void)menuIntroductionAnimation:(UIButton *)button{
     menu.hidden = YES;
     menu.center = CGPointMake(160, 542);
@@ -256,6 +508,11 @@
     
 
 }
+
+
+
+
+#pragma Share / Play Again Buttons
 
 -(IBAction)share:(id)sender{
     
@@ -304,11 +561,27 @@
     }
 }
 
-
-
 -(void)postOnFacebook{
     
-    NSString *postContent = [NSString stringWithFormat:@"Post Will Go Here"];
+    NSString *mode = [[NSUserDefaults standardUserDefaults] valueForKey:@"mode"];
+    int topScore = 1;
+    int awardedScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"awardedScore"];
+    
+    
+    if ([mode  isEqual: @"Arcade"]){
+        
+        topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"topScoreClassic"];
+    }
+    else if ([mode  isEqual: @"Reverse"]){
+        
+        topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreReverse"];
+    }
+    else if ([mode  isEqual: @"Classic"]){
+        
+        topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreSimple"];
+    }
+    
+    NSString *postContent = [NSString stringWithFormat:@"I just scored %ift on Wubbles %@, my best is %i! Can you beat that? https://itunes.apple.com/us/app/wubbles!/id905823698?ls=1&mt=8",awardedScore, mode, topScore];
     SLComposeViewController *facebookPost = [[SLComposeViewController alloc]init];
     facebookPost = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
     [facebookPost setInitialText:postContent];
@@ -318,7 +591,25 @@
 
 -(void)postOnTwitter{
     
-    NSString *postContent = [NSString stringWithFormat:@"Post Will Go Here"];
+    NSString *mode = [[NSUserDefaults standardUserDefaults] valueForKey:@"mode"];
+    int topScore = 1;
+    int awardedScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"awardedScore"];
+    
+    
+    if ([mode  isEqual: @"Arcade"]){
+        
+        topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"topScoreClassic"];
+    }
+    else if ([mode  isEqual: @"Reverse"]){
+        
+        topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreReverse"];
+    }
+    else if ([mode  isEqual: @"Classic"]){
+        
+        topScore = [[NSUserDefaults standardUserDefaults] integerForKey:@"TopScoreSimple"];
+    }
+    
+    NSString *postContent = [NSString stringWithFormat:@"I just scored %ift on Wubbles %@, my best is %i! Can you beat that? https://itunes.apple.com/us/app/wubbles!/id905823698?ls=1&mt=8",awardedScore, mode, topScore];
     SLComposeViewController *twitterPost = [[SLComposeViewController alloc]init];
     twitterPost = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
     [twitterPost setInitialText:postContent];
@@ -332,7 +623,6 @@
 {
     return NO;
 }
-
 
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -348,6 +638,14 @@
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
 }
+
+-(void)cleanAllViews{
+    
+   
+}
+
+
+#pragma Advertisement Methods
 
 -(void)bannerViewDidLoadAd:(ADBannerView *)banner{
     
@@ -416,4 +714,120 @@
     
 }
 
+
+#pragma Game Center
+
+-(void)authenticateLocalPlayer{
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    
+    localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
+        if (viewController != nil) {
+            [self presentViewController:viewController animated:YES completion:nil];
+        }
+        else{
+            if ([GKLocalPlayer localPlayer].authenticated) {
+                _gameCenterEnabled = YES;
+                
+                // Get the default leaderboard identifier.
+                [[GKLocalPlayer localPlayer] loadDefaultLeaderboardIdentifierWithCompletionHandler:^(NSString *leaderboardIdentifier, NSError *error) {
+                    
+                    if (error != nil) {
+                        NSLog(@"%@", [error localizedDescription]);
+                    }
+                    else{
+                        _leaderboardIdentifier = leaderboardIdentifier;
+                    }
+                }];
+            }
+            
+            else{
+                _gameCenterEnabled = NO;
+            }
+        }
+    };
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 10;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 1;
+    
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    
+    //cell.textLabel.text = [scorePlace objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+-(void)addTestArray{
+    
+    
+    
+}
+#pragma settings
+
+- (void)changeSwitchBackground:(id)backgroundSwitch{
+    if([backgroundMusicSwitch isOn]){
+        NSLog(@"Switch is ON");
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PlayBackgroundMusic"];
+    }
+    else{
+        
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PlayBackgroundMusic"];
+
+        NSLog(@"Switch is OFF");
+    }
+}
+
+- (void)changeSwitchEffect:(id)effectSwitch{
+    if([effectSwitch isOn]){
+        
+        NSLog(@"Switch is ON");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PlaySoundEffects"];
+    }
+    else{
+        
+        NSLog(@"Switch is OFF");
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PlaySoundEffects"];
+    }
+}
+
+-(void)setSwitches{
+    
+    bool playBackgroundMusic;
+    playBackgroundMusic = [[NSUserDefaults standardUserDefaults] boolForKey:@"PlayBackgroundMusic"];
+    
+    if (playBackgroundMusic == true){
+        
+        [backgroundMusicSwitch setOn:YES];
+    }
+    else{
+        
+        [backgroundMusicSwitch setOn:NO];
+    }
+    
+    bool playSoundEffects;
+    playSoundEffects = [[NSUserDefaults standardUserDefaults] boolForKey:@"PlaySoundEffects"];
+    
+    if (playSoundEffects == true){
+        
+        [soundEffectSwitch setOn:YES];
+    }
+    else{
+        
+        [soundEffectSwitch setOn:NO];
+    }
+                         
+}
 @end
