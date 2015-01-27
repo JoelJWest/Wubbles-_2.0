@@ -594,81 +594,7 @@ static const uint32_t arrowCategory = 0x1 << 7;
         }
 }
 
--(void)startShooting{
-    
-    [self addArrow:CGPointMake(160,0)];
-    
-    countArrows = 1;
-    shoot = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(shoot) userInfo:nil repeats:YES];
-    
 
-}
-
--(void)shoot{
-    
-    int randomX = arc4random()%320;
-    randomX += 1;
-    countArrows += 1;
-    
-    SKAction *fadeOut = [SKAction fadeAlphaTo:0 duration:.2];
-    
-    [arrow runAction:fadeOut completion:^{
-    [arrow removeFromParent];
-    arrow = nil;
-    
-        if (countArrows <= 10){
-            UIBezierPath* polygonPath = UIBezierPath.bezierPath;
-            [polygonPath moveToPoint: CGPointMake(0.5, -3)];
-            [polygonPath addLineToPoint: CGPointMake(2.67, 4.5)];
-            [polygonPath addLineToPoint: CGPointMake(-1.67, 4.5)];
-    
-            arrow = [SKNode node];
-            arrow.position = CGPointMake(randomX, 0);
-            arrow.zPosition = 99;
-            arrow.name = @"Arrow";
-    
-            arrowTail = [SKSpriteNode spriteNodeWithImageNamed:@"arrowBottom.png"];
-            arrowTail.size = CGSizeMake(5, 30);
-            arrowTail.position = CGPointMake(0, 0);
-            arrowTail.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(1, 30)];
-            arrowTail.physicsBody.mass = .1;
-            arrowTail.physicsBody.affectedByGravity = NO;
-            arrowTail.physicsBody.linearDamping = 10;
-            arrowTail.zPosition = 99;
-    
-            arrowHead = [SKSpriteNode spriteNodeWithImageNamed:@"arrowTop1.png"];
-            arrowHead.size = CGSizeMake(5, 10);
-            arrowHead.zRotation = 3.14159;
-            arrowHead.position = CGPointMake(0, 20);
-            arrowHead.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:polygonPath.CGPath];
-            arrowHead.physicsBody.mass = .1;
-            arrowHead.physicsBody.linearDamping = 8;
-            arrowHead.physicsBody.affectedByGravity = NO;
-            arrowHead.zPosition = 99;
-    
-            [arrow addChild:arrowTail];
-            [arrow addChild:arrowHead];
-            [self addChild:arrow];
-    
-    
-    
-            SKPhysicsJointFixed *arrowJoint = [SKPhysicsJointFixed jointWithBodyA:arrowTail.physicsBody bodyB:arrowHead.physicsBody anchor:CGPointMake(arrowTail.position.x, arrowTail.position.y + 35)];
-    
-            [self.physicsWorld addJoint:arrowJoint];
-    
-            double rotation = atan2((wubbles.position.y - arrow.position.y),(wubbles.position.x - arrow.position.x));
-            arrow.zRotation = -((3.14159 / 2 ) - rotation);
-    
-            [self shootArrow];
-            
-        }
-        else{
-            
-            [shoot invalidate];
-            
-        }
-    }];
-}
 
 #pragma gameOver
 
@@ -1007,16 +933,6 @@ static const uint32_t arrowCategory = 0x1 << 7;
     else if ((contact.bodyA.categoryBitMask == playerCategory) && (contact.bodyB.categoryBitMask == rocketCatergory)){
         [rocketNode removeFromParent];
         [self rocketWubbles];
-        
-    }
-    if ((contact.bodyA.categoryBitMask == crossHairCategory) && (contact.bodyB.categoryBitMask == playerCategory)){
-        [crossHairIcon removeFromParent];
-        [self startShooting];
-    }
-    else if ((contact.bodyA.categoryBitMask == playerCategory) && (contact.bodyB.categoryBitMask == crossHairCategory)){
-        [crossHairIcon removeFromParent];
-        [self startShooting];
-        
     }
     if ((contact.bodyA.categoryBitMask == arrowCategory) && (contact.bodyB.categoryBitMask == playerCategory)){
         [arrow removeFromParent];
@@ -1052,7 +968,7 @@ static const uint32_t arrowCategory = 0x1 << 7;
     [leftBar4 runAction:moveDownSpecialRepeating];
     counter = 2;
     
-    NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(changeBack1) userInfo:nil repeats:NO];
+    __unused NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(changeBack1) userInfo:nil repeats:NO];
     
     
 }
@@ -1072,7 +988,7 @@ static const uint32_t arrowCategory = 0x1 << 7;
     newPhysicsBody.velocity = wubbles.physicsBody.velocity;
     wubbles.physicsBody = newPhysicsBody;
   
-    NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(changeBack2) userInfo:nil repeats:NO];
+    __unused NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(changeBack2) userInfo:nil repeats:NO];
     
 }
 
@@ -1098,7 +1014,7 @@ static const uint32_t arrowCategory = 0x1 << 7;
     shieldedBody.velocity = wubbles.physicsBody.velocity;
     
     wubbles.physicsBody = shieldedBody;
-    NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(changeBack) userInfo:nil repeats:NO];
+    __unused NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(changeBack) userInfo:nil repeats:NO];
 
 }
 
@@ -1120,7 +1036,7 @@ static const uint32_t arrowCategory = 0x1 << 7;
             
         }];
         
-        NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(changeBack) userInfo:nil repeats:NO];
+       __unused  NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(changeBack) userInfo:nil repeats:NO];
         
     }
     else{
@@ -1138,7 +1054,7 @@ static const uint32_t arrowCategory = 0x1 << 7;
         
         }];
         
-        NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(changeBack) userInfo:nil repeats:NO];
+       __unused NSTimer *changeBackTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(changeBack) userInfo:nil repeats:NO];
     }
 }
 
@@ -1162,74 +1078,6 @@ static const uint32_t arrowCategory = 0x1 << 7;
     
 }
 
--(void)addArrow:(CGPoint)position{
-  
-    
-    UIBezierPath* polygonPath = UIBezierPath.bezierPath;
-    [polygonPath moveToPoint: CGPointMake(0.5, -3)];
-    [polygonPath addLineToPoint: CGPointMake(2.67, 4.5)];
-    [polygonPath addLineToPoint: CGPointMake(-1.67, 4.5)];
-    
-    
-    arrow = [SKNode node];
-    arrow.position = CGPointMake(position.x, position.y);
-    arrow.zPosition = 99;
-    arrow.name=@"Arrow";
-    
-    
-    arrowTail = [SKSpriteNode spriteNodeWithImageNamed:@"arrowBottom.png"];
-    arrowTail.size = CGSizeMake(5, 30);
-    arrowTail.position = CGPointMake(0, 0);
-    arrowTail.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:CGSizeMake(1, 30)];
-    arrowTail.physicsBody.mass = .1;
-    arrowTail.physicsBody.affectedByGravity = NO;
-    arrowTail.physicsBody.linearDamping = 10;
-    arrowTail.zPosition = 99;
-    
-    arrowHead = [SKSpriteNode spriteNodeWithImageNamed:@"arrowTop1.png"];
-    arrowHead.size = CGSizeMake(5, 10);
-    arrowHead.zRotation = 3.14159;
-    arrowHead.position = CGPointMake(0, 20);
-    arrowHead.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:polygonPath.CGPath];
-    arrowHead.physicsBody.mass = .1;
-    arrowHead.physicsBody.linearDamping = 8;
-    arrowHead.physicsBody.affectedByGravity = NO;
-    arrowHead.zPosition = 99;
-    
-    [arrow addChild:arrowTail];
-    [arrow addChild:arrowHead];
-    [self addChild:arrow];
-   
-    
-    
-    SKPhysicsJointFixed *arrowJoint = [SKPhysicsJointFixed jointWithBodyA:arrowTail.physicsBody bodyB:arrowHead.physicsBody anchor:CGPointMake(arrowTail.position.x, arrowTail.position.y + 35)];
-
-    [self.physicsWorld addJoint:arrowJoint];
-    
-    double rotation = atan2((wubbles.position.y - arrow.position.y),(wubbles.position.x - arrow.position.x));
-    arrow.zRotation = -((3.14159 / 2 ) - rotation);
-    
-   
-    
-    [self shootArrow];
-
-    
-    
-}
-
--(void)shootArrow{
-    
-    double rotation = atan2((wubbles.position.y - arrow.position.y),(wubbles.position.x - arrow.position.x));
-    arrow.zRotation = -((3.14159 / 2 ) - rotation);
-    
-    arrowHead.physicsBody.affectedByGravity = YES;
-    arrowTail.physicsBody.affectedByGravity = YES;
-    int force = 1.2;
-    CGVector vector = CGVectorMake((wubbles.position.x - arrow.position.x)* force, (wubbles.position.y - arrow.position.y)*force);
-    
-    [arrowHead.physicsBody applyImpulse:vector];
-    
-}
 
 #pragma reset methods
 
